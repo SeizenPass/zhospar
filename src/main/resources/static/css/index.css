@@ -1,0 +1,16 @@
+.full-cover {
+    height: 100vh;
+}
+
+.logo{
+    max-width: 60%;
+    object-fit: cover;
+}
+
+.logoReg{
+    max-width: 100%;
+}
+
+.loginBg {
+    height: 100vh;
+}

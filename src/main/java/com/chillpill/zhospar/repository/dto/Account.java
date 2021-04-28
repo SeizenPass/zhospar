@@ -22,6 +22,8 @@ public class Account implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    private String fullName;
+
     private String mail;
 
     private Date registrationDate;
@@ -31,6 +33,9 @@ public class Account implements UserDetails {
 
     @OneToMany(mappedBy = "account")
     private List<TaskExecution> executionList;
+
+    @OneToMany(mappedBy = "creator")
+    private List<Task> createdTasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

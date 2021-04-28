@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <div th:replace="fragments/dependencies"></div>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row full-cover" >
+            <div class="col-md-8 bg-image">
+                <img src="../static/images/visuals/kanban2.jpg" th:src="@{/images/visuals/kanban.jpg}" alt="bgm" class="loginBg">
+            </div>
+            <div class="col-md-4 d-flex flex-column align-items-center">
+                <img class="logo" th:src="@{/images/logo/logo.png}" alt="Zhospar Logo">
+                <form action="/login" method="post" class="d-flex flex-column" style="width: 100%">
+                    <h2>Login</h2>
+                    <h5>Login into your account</h5>
+                    <hr>
+                    <div class="mb-4">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text" id="username" class="form-control" name="username" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="for1">Password</label>
+                        <input type="password" id="for1" class="form-control" name="password" />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block ripple-surface">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

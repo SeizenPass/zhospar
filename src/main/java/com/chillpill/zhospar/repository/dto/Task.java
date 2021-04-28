@@ -3,6 +3,7 @@ package com.chillpill.zhospar.repository.dto;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,17 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private TaskStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Account creator;
+
+    private String description;
+
+    @Column(nullable = false)
+    private Date createdAt;
+
+    private Date deadline;
 
     @OneToMany(mappedBy = "task")
     private List<TaskExecution> taskExecutions;
