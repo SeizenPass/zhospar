@@ -24,7 +24,8 @@ public class Account implements UserDetails {
 
     private String fullName;
 
-    private String mail;
+    @Column(name = "email", unique = true)
+    private String email;
 
     private Date registrationDate;
 
