@@ -2,12 +2,15 @@ package com.chillpill.zhospar.service;
 
 import com.chillpill.zhospar.repository.AccountRepository;
 import com.chillpill.zhospar.repository.dto.Account;
+import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AccountDetailsService implements UserDetailsService {
@@ -39,5 +42,9 @@ public class AccountDetailsService implements UserDetailsService {
         else {
             return null;
         }
+    }
+
+    public List<ProjectMembership> getAllMembershipsByAccountId(long accountId) {
+        return accountRepository.getOne(accountId).getMemberships();
     }
 }

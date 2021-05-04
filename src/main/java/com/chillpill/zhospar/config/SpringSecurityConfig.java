@@ -34,7 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(60 * 60 * 5); //5 hours
             session.setAttribute("user", user);
-            response.sendRedirect("/");
+            response.sendRedirect("/projects");
         });
     }
 
@@ -54,7 +54,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Настройка для входа в систему
                 .formLogin()
                 .loginPage("/login")
-                //.successHandler(authenticationSuccessHandler())
+                .successHandler(authenticationSuccessHandler())
                 //Перенарпавление на главную страницу после успешного входа
                 .permitAll()
                 .and()
