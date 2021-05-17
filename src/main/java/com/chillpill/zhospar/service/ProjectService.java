@@ -33,4 +33,8 @@ public class ProjectService {
     public ProjectMembership createProjectMembership(ProjectMembership projectMembership) {
         return membershipRepository.save(projectMembership);
     }
+
+    public Project getProjectById(long id) {
+        return projectRepository.getOne(id);
+    }
 }

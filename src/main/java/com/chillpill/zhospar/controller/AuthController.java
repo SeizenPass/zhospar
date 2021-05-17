@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 @Controller
@@ -22,7 +23,10 @@ public class AuthController {
 
     // Login form
     @GetMapping("/login")
-    public String getLogin() {
+    public String getLogin(HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") != null) {
+            return "redirect:/projects";
+        }
         return "login";
     }
 

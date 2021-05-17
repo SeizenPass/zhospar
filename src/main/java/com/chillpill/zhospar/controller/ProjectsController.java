@@ -72,6 +72,8 @@ public class ProjectsController {
     @GetMapping("/{id}")
     public String getProject(Model model, @PathVariable("id") long projectId) {
         //TODO check for access
+        Project project = projectService.getProjectById(projectId);
+        model.addAttribute("project", project);
         return "dashboard";
     }
 }

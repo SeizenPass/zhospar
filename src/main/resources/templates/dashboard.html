@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${project.projectName}"></title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <div th:replace="fragments/dependencies"></div>
 </head>
-<body>
+<body class="vh-100 d-flex flex-column">
+<div th:insert="fragments/projectTools :: navbar"></div>
+<script th:replace="fragments/projectTools :: navbarPos"></script>
+<div class="container-fluid flex-grow-1" id="dashboard">
+    <div class="row h-100">
+        <div class="col-md-9 p-4 h-100">
+            <div class=" h-100 overflow-hidden d-flex border border-primary flex-row p-1 justify-content-start" id="board">
+                <div class="category h-100 ms-2 me-2 p-0 border shadow-1-strong overflow-auto">
+                    <div class="bg-white p-2 text-center w-10 border">
+                        To do
+                    </div>
+                    <div class="tasks overflow-auto">
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                        <div class="w-100 p-2">
+                            <div class="task w-100 bg-white p-1 border hover-shadow">
+                                <div class="mb-1">Продам гараж</div>
+                                <div>Осталось: 2 дня</div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
+            </div>
+        </div>
+        <div class="col-md-3 shadow-1-strong" id="profile">
+            <h3 th:text="${session.user.username}"></h3>
+            <h4 th:text="${session.user.fullName}"></h4>
+        </div>
+    </div>
+</div>
 </body>
 </html>
