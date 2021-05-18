@@ -29,7 +29,7 @@ public class Account implements UserDetails {
 
     private Date registrationDate;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
     private List<ProjectMembership> memberships;
 
     @OneToMany(mappedBy = "account")

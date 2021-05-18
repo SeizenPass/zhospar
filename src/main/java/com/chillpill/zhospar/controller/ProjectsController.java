@@ -1,10 +1,7 @@
 package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AddProjectRequest;
-import com.chillpill.zhospar.repository.dto.Account;
-import com.chillpill.zhospar.repository.dto.Project;
-import com.chillpill.zhospar.repository.dto.ProjectMembership;
-import com.chillpill.zhospar.repository.dto.ProjectRole;
+import com.chillpill.zhospar.repository.dto.*;
 import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +67,21 @@ public class ProjectsController {
     }
 
     @GetMapping("/{id}")
-    public String getProject(Model model, @PathVariable("id") long projectId) {
-        //TODO check for access
+    public String getProject(Model model, @PathVariable("id") long projectId, HttpServletRequest request) {
         Project project = projectService.getProjectById(projectId);
+        if (project == null) {
+            model.addAttribute("error", "Project not found");
+            return "error";
+        }
+        Account user = (Account)request.getSession().getAttribute("user");
+        ProjectMembership membership = projectService.getProjectMembershipByAccountAndProject(user, project);
+        if (membership == null) {
+            model.addAttribute("error", "Membership not found");
+            return "error";
+        }
+        List<TaskStatus> taskStatusList = project.getTaskStatuses();
         model.addAttribute("project", project);
+        model.addAttribute("taskStatusList", taskStatusList);
         return "dashboard";
     }
 }
