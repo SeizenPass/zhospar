@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Task Status</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <div th:replace="fragments/dependencies"></div>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row full-cover" >
+        <div class="col-md-4 bg-image d-flex justify-content-center align-items-center" style="background-color: rgba(0, 113, 255, 0.67)">
+            <img src="../static/images/visuals/kanban3.jpg" th:src="@{/images/logo/logo_transparent.png}" alt="logo" class="logoReg">
+        </div>
+        <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
+            <form action="/status/add" method="post" class="d-flex flex-column" style="width: 100%">
+                <h2>Add Status to your project</h2>
+                <h5>It will be displayed on the board</h5>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-4">
+                            <label class="form-label" for="statusName">Task Status Name</label>
+                            <input type="text" id="statusName" class="form-control" name="statusName" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="projectId">Project</label>
+                            <select name="projectId" id="projectId">
+                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary btn-block ripple-surface">Create Project</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

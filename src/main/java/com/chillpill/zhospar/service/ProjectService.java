@@ -3,6 +3,7 @@ package com.chillpill.zhospar.service;
 import com.chillpill.zhospar.repository.ProjectMembershipRepository;
 import com.chillpill.zhospar.repository.ProjectRepository;
 import com.chillpill.zhospar.repository.ProjectRoleRepository;
+import com.chillpill.zhospar.repository.dto.Account;
 import com.chillpill.zhospar.repository.dto.Project;
 import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import com.chillpill.zhospar.repository.dto.ProjectRole;
@@ -36,5 +37,9 @@ public class ProjectService {
 
     public Project getProjectById(long id) {
         return projectRepository.getOne(id);
+    }
+
+    public ProjectMembership getProjectMembershipByAccountAndProject(Account account, Project project) {
+        return membershipRepository.findFirstByAccountAndProject(account, project);
     }
 }
