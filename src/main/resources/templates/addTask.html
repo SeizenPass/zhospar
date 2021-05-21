@@ -20,7 +20,19 @@
                 <script>
                     $(document).ready(function () {
                         $("#projectId").select(function () {
-                            
+                            var ajaxCall = $.ajax({
+                                dataType: 'json',
+                                url: '/status/project/' + $("#projectId").val()
+                            });
+                            ajaxCall.done(function(data) {
+                                let status = $("#statusId")
+                                for (let i = 0; i < data.length; i++) {
+                                    let option = document.createElement("option")
+                                    option.val(data.statusId)
+                                    option.text(data.statusName)
+                                    status.append(option)
+                                }
+                            });
                         })
                     })
                 </script>
