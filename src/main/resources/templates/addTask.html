@@ -13,23 +13,29 @@
             <img src="../static/images/visuals/kanban3.jpg" th:src="@{/images/logo/logo_transparent.png}" alt="logo" class="logoReg">
         </div>
         <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
-            <form action="/status/add" method="post" class="d-flex flex-column" style="width: 100%">
+            <form action="/task/add" method="post" class="d-flex flex-column" style="width: 100%">
                 <h2>Add Task to your project</h2>
                 <h5>It will be displayed on the board</h5>
                 <hr>
                 <script>
                     $(document).ready(function () {
-                        $("#projectId").select(function () {
+                        $("#projectId").change(function () {
                             var ajaxCall = $.ajax({
                                 dataType: 'json',
                                 url: '/status/project/' + $("#projectId").val()
                             });
                             ajaxCall.done(function(data) {
+                                console.log(data)
                                 let status = $("#statusId")
+                                status.empty()
+                                let defOpt = document.createElement("option")
+                                defOpt.value = "0"
+                                defOpt.innerText = "Choose one if available"
+                                status.append(defOpt)
                                 for (let i = 0; i < data.length; i++) {
                                     let option = document.createElement("option")
-                                    option.val(data.statusId)
-                                    option.text(data.statusName)
+                                    option.value = data[i].statusId
+                                    option.innerText = data[i].statusName
                                     status.append(option)
                                 }
                             });
@@ -45,17 +51,19 @@
                         <div class="mb-4">
                             <label class="form-label" for="projectId">Project</label>
                             <select name="projectId" id="projectId">
+                                <option value="0" selected>Choose one if available</option>
                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
                             </select>
                         </div>
                         <div class="mb-4">
                             <label class="form-label" for="statusId">Task Status</label>
                             <select name="statusId" id="statusId">
-                                <option th:each="status : ${statuses}" th:value="statusId" th:text="statusName"></option>
+                                <option value="0" selected>Choose one if available</option>
                             </select>
                         </div>
                         <div class="mb-4">
-                            <input type="datetime-local">
+                            <label class="form-label" for="createdAt">Task Name</label>
+                            <input type="datetime-local" id="createdAt" class="form-control" name="createdAt" />
                         </div>
                     </div>
                 </div>
