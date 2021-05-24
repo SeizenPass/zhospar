@@ -43,7 +43,7 @@ public class TaskController {
         task.setCreator(account);
         task.setDeadline(taskRequest.getDeadline());
         task.setDescription(taskRequest.getTaskName());
-        task.setParentTask(taskService.getTask(taskRequest.getParentId()));
+        //task.setParentTask(taskService.getTask(taskRequest.getParentId()));
         task.setProject(projectService.getProjectById(taskRequest.getProjectId()));
         task.setStatus(taskService.getTaskStatusByStatusId(taskRequest.getStatusId()));
         taskService.createTask(task);

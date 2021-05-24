@@ -36,7 +36,7 @@ public class Task {
     private String description;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(columnDefinition = "date default now()")
     private Date createdAt;
 
     private Date deadline;
