@@ -49,10 +49,13 @@
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label" for="projectId">Task Status</label>
+                            <label class="form-label" for="statusId">Task Status</label>
                             <select name="statusId" id="statusId">
-
+                                <option th:each="status : ${statuses}" th:value="statusId" th:text="statusName"></option>
                             </select>
+                        </div>
+                        <div class="mb-4">
+                            <input type="datetime-local">
                         </div>
                     </div>
                 </div>

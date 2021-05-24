@@ -2,9 +2,11 @@ package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AddTaskRequest;
 import com.chillpill.zhospar.repository.dto.Account;
+import com.chillpill.zhospar.repository.dto.Project;
 import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import com.chillpill.zhospar.repository.dto.Task;
 import com.chillpill.zhospar.service.ProjectService;
+import com.chillpill.zhospar.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,11 @@ import java.util.List;
 @RequestMapping("/task")
 public class TaskController {
     private final ProjectService projectService;
-
+    private final TaskService taskService;
     @Autowired
-    public TaskController(ProjectService projectService) {
+    public TaskController(ProjectService projectService, TaskService taskService) {
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/add")
@@ -38,8 +41,12 @@ public class TaskController {
         Account account = ((Account)(request.getSession().getAttribute("user")));
         Task task = new Task();
         task.setCreator(account);
-        task.setProject(projectService.getProjectById(taskRequest.getProjectId()));
+        task.setDeadline(taskRequest.getDeadline());
         task.setDescription(taskRequest.getTaskName());
+        task.setParentTask(taskService.getTask(taskRequest.getParentId()));
+        task.setProject(projectService.getProjectById(taskRequest.getProjectId()));
+        task.setStatus(taskService.getTaskStatusByStatusId(taskRequest.getStatusId()));
+        taskService.createTask(task);
         return "redirect:/projects/"+taskRequest.getProjectId();
     }
 }

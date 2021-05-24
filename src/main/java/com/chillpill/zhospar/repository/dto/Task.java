@@ -1,6 +1,7 @@
 package com.chillpill.zhospar.repository.dto;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -34,6 +35,7 @@ public class Task {
 
     private String description;
 
+    @CreatedDate
     @Column(nullable = false)
     private Date createdAt;
 

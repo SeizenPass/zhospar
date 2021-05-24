@@ -32,4 +32,12 @@ public class TaskService {
     public Task createTask(Task task) {
         return taskRepository.save(task);
     }
+
+    public TaskStatus getTaskStatusByStatusId(long id) {
+        return statusRepository.getTaskStatusByStatusId(id);
+    }
+
+    public Task getTask(long id){
+        return taskRepository.getTaskByTaskId(id);
+    }
 }
