@@ -1,6 +1,7 @@
 package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AddTaskStatusRequest;
+import com.chillpill.zhospar.controller.dto.TaskDto;
 import com.chillpill.zhospar.controller.dto.TaskStatusDto;
 import com.chillpill.zhospar.repository.dto.Account;
 import com.chillpill.zhospar.repository.dto.Project;
@@ -57,5 +58,15 @@ public class TaskStatusController {
                 project.getTaskStatuses().stream()
                 .map(converter::convertTaskStatusDto)
                 .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/tasks/{id}")
+    public ResponseEntity<List<TaskDto>> getTasksByStatus(@PathVariable("id") long statusId) {
+        TaskStatus status = taskService.getTaskStatusByStatusId(statusId);
+        return ResponseEntity.ok(
+                status.getTaskList().stream()
+                .map(converter::convertTaskDto)
+                .collect(Collectors.toList())
+        );
     }
 }

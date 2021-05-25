@@ -25,8 +25,9 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label" for="projectId">Project</label>
-                            <select name="projectId" id="projectId">
-                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
+                            <select name="projectId" id="projectId" class="form-control">
+                                <option value="0" selected>Choose one if available</option>
+                                <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
                             </select>
                         </div>
                     </div>
