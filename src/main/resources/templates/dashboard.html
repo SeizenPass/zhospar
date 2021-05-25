@@ -9,6 +9,14 @@
 <body class="vh-100 d-flex flex-column">
 <div th:insert="fragments/projectTools :: navbar"></div>
 <script th:replace="fragments/projectTools :: navbarPos"></script>
+<script>
+    $(document).ready(function () {
+        $(".task").click(function () {
+            let id = $(this).attr('id');
+            location.href = "/task/" + id
+        })
+    })
+</script>
 <div class="container-fluid flex-grow-1" id="dashboard">
     <div class="row h-100">
         <div class="col-md-9 p-4 h-100">
@@ -18,15 +26,11 @@
                         To do
                     </div>
                     <div class="tasks overflow-auto">
-                        <div class="w-100 p-2">
-                            <div class="task w-100 bg-white p-1 border hover-shadow text-center">
-                                +
-                            </div>
-                        </div>
                         <div th:each="task: ${taskStatus.taskList}" class="w-100 p-2">
-                            <div class="task w-100 bg-white p-1 border hover-shadow">
-                                <div th:text="${task.description}" class="mb-1">Продам гараж</div>
-                                <div>Осталось: 2 дня</div>
+                            <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow">
+                                <div th:text="*{description}" class="mb-1 text-primary">Продам гараж</div>
+                                <div>Subtasks: <span th:text="*{subtasks.size()}"></span></div>
+                                <div>Deadline: <span th:text="*{deadline}" class="text-danger"></span></div>
                             </div>
                         </div>
                     </div>

@@ -2,19 +2,21 @@ package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AddTaskRequest;
 import com.chillpill.zhospar.repository.dto.Account;
-import com.chillpill.zhospar.repository.dto.Project;
 import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import com.chillpill.zhospar.repository.dto.Task;
+import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
 import com.chillpill.zhospar.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -22,10 +24,12 @@ import java.util.List;
 public class TaskController {
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final AccountDetailsService accountDetailsService;
     @Autowired
-    public TaskController(ProjectService projectService, TaskService taskService) {
+    public TaskController(ProjectService projectService, TaskService taskService, AccountDetailsService accountDetailsService) {
         this.projectService = projectService;
         this.taskService = taskService;
+        this.accountDetailsService = accountDetailsService;
     }
 
     @GetMapping("/add")
@@ -41,12 +45,22 @@ public class TaskController {
         Account account = ((Account)(request.getSession().getAttribute("user")));
         Task task = new Task();
         task.setCreator(account);
-        task.setDeadline(taskRequest.getDeadline());
+        task.setDeadline(Date.valueOf(taskRequest.getDeadline()));
         task.setDescription(taskRequest.getTaskName());
-        //task.setParentTask(taskService.getTask(taskRequest.getParentId()));
+        if (taskRequest.getParentId() != 0) {
+            task.setParentTask(taskService.getTask(taskRequest.getParentId()));
+        } else {
+            task.setStatus(taskService.getTaskStatusByStatusId(taskRequest.getStatusId()));
+        }
         task.setProject(projectService.getProjectById(taskRequest.getProjectId()));
-        task.setStatus(taskService.getTaskStatusByStatusId(taskRequest.getStatusId()));
         taskService.createTask(task);
         return "redirect:/projects/"+taskRequest.getProjectId();
+    }
+
+    @GetMapping("{id}")
+    public String getTask(Model model, @PathVariable("id") long taskid) {
+        Task task = taskService.getTask(taskid);
+        model.addAttribute("task", task);
+        return "taskView";
     }
 }

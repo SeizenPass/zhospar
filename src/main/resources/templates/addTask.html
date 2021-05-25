@@ -25,18 +25,53 @@
                                 url: '/status/project/' + $("#projectId").val()
                             });
                             ajaxCall.done(function(data) {
-                                console.log(data)
                                 let status = $("#statusId")
+                                let withParentStatus = $('#statusIdForTasks')
                                 status.empty()
+                                withParentStatus.empty()
+                                let defOpt = $('<option>')
+                                defOpt.text("Choose one if available")
+                                defOpt.val("0")
+                                status.append(defOpt.clone())
+                                withParentStatus.append(defOpt.clone())
+                                for (let i = 0; i < data.length; i++) {
+                                    let option = $('<option>')
+                                    option.val(data[i].statusId)
+                                    option.text(data[i].statusName)
+                                    status.append(option.clone())
+                                    withParentStatus.append(option.clone())
+                                }
+                            });
+                        })
+                        $('#isParentBox').change(function () {
+                            let box = $('#withParentId')
+                            let noParentBox = $("#noParentId")
+                            if (box.is(":visible")){
+                                box.hide()
+                                noParentBox.show()
+                            } else {
+                                box.show()
+                                noParentBox.hide()
+                            }
+                        })
+                        $('#statusIdForTasks').change(function () {
+                            var ajaxCall = $.ajax({
+                                dataType: 'json',
+                                url: '/status/tasks/' + $("#statusIdForTasks").val()
+                            });
+                            ajaxCall.done(function(data) {
+                                console.log(data)
+                                let tasks = $("#parentId")
+                                tasks.empty()
                                 let defOpt = document.createElement("option")
                                 defOpt.value = "0"
                                 defOpt.innerText = "Choose one if available"
-                                status.append(defOpt)
+                                tasks.append(defOpt)
                                 for (let i = 0; i < data.length; i++) {
                                     let option = document.createElement("option")
-                                    option.value = data[i].statusId
-                                    option.innerText = data[i].statusName
-                                    status.append(option)
+                                    option.value = data[i].taskId
+                                    option.innerText = data[i].description
+                                    tasks.append(option)
                                 }
                             });
                         })
@@ -50,20 +85,52 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label" for="projectId">Project</label>
-                            <select name="projectId" id="projectId">
+                            <select name="projectId" id="projectId" class="form-control">
                                 <option value="0" selected>Choose one if available</option>
                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
                             </select>
                         </div>
                         <div class="mb-4">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    id="isParentBox"
+                            />
+                            <label class="form-check-label" for="isParentBox">
+                                Is a subtask?
+                            </label>
+                        </div>
+                        <div class="mb-4" id="noParentId">
                             <label class="form-label" for="statusId">Task Status</label>
-                            <select name="statusId" id="statusId">
+                            <select name="statusId" id="statusId" class="form-control">
                                 <option value="0" selected>Choose one if available</option>
                             </select>
                         </div>
+                        <div class="mb-4" id="withParentId" style="display: none">
+                            <hr>
+                            <label class="form-label" for="statusIdForTasks">Task Status</label>
+                            <select id="statusIdForTasks" class="form-control">
+                                <option value="0" selected>Choose one if available</option>
+                            </select>
+                            <label class="form-label" for="parentId">Parent Task</label>
+                            <select name="parentId" id="parentId" class="form-control">
+                                <option value="0" selected>Choose one if available</option>
+                            </select>
+                            <hr>
+                        </div>
                         <div class="mb-4">
-                            <label class="form-label" for="createdAt">Task Name</label>
-                            <input type="datetime-local" id="createdAt" class="form-control" name="createdAt" />
+                            <label class="form-label" for="deadline">Deadline</label>
+                            <input type="date" id="deadline" class="form-control" name="deadline" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="executors">Task Status</label>
+                            <select multiple id="executors" class="form-control">
+                                <option value="0">Choose one if available</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
                         </div>
                     </div>
                 </div>

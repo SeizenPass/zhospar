@@ -44,6 +44,10 @@ public class AccountDetailsService implements UserDetailsService {
         }
     }
 
+    public Account getAccountById(long id) {
+        return accountRepository.getOne(id);
+    }
+
     public List<ProjectMembership> getAllMembershipsByAccountId(long accountId) {
         return accountRepository.getOne(accountId).getMemberships();
     }
