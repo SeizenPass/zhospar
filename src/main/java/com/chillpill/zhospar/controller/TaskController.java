@@ -47,7 +47,6 @@ public class TaskController {
         Account account = ((Account)(request.getSession().getAttribute("user")));
         Task task = new Task();
         task.setCreator(account);
-        task.setDeadline(Date.valueOf(taskRequest.getDeadline()));
         task.setDescription(taskRequest.getTaskName());
         if (taskRequest.getParentId() != 0) {
             Task parentTask = taskService.getTask(taskRequest.getParentId());
@@ -58,6 +57,9 @@ public class TaskController {
         }
         task.setProject(projectService.getProjectById(taskRequest.getProjectId()));
         taskService.createTask(task);
+        if (taskRequest.getDeadline() != null && !taskRequest.getDeadline().trim().isEmpty()) {
+            task.setDeadline(Date.valueOf(taskRequest.getDeadline()));
+        }
         if (taskRequest.getExecutors() != null) {
             for (long id:
                     taskRequest.getExecutors()) {
