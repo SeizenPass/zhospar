@@ -13,7 +13,7 @@
             <img src="../static/images/visuals/kanban3.jpg" th:src="@{/images/logo/logo_transparent.png}" alt="logo" class="logoReg">
         </div>
         <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
-            <form action="/status/add" method="post" class="d-flex flex-column" style="width: 100%">
+            <form th:action="@{/invite}" method="post" class="d-flex flex-column" style="width: 100%">
                 <h2>Add contributor to your project</h2>
                 <h5>Work together</h5>
                 <hr>
@@ -26,11 +26,15 @@
                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
                             </select>
                         </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="credentials">Email or Username</label>
+                            <input type="text" id="credentials" class="form-control" name="credentials" />
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary btn-block ripple-surface">Create</button>
+                        <button type="submit" class="btn btn-primary btn-block ripple-surface">Invite</button>
                     </div>
                 </div>
             </form>

@@ -1,9 +1,11 @@
 package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AccountDto;
+import com.chillpill.zhospar.controller.dto.AddInviteRequest;
 import com.chillpill.zhospar.controller.dto.AddProjectRequest;
 import com.chillpill.zhospar.repository.dto.*;
 import com.chillpill.zhospar.service.AccountDetailsService;
+import com.chillpill.zhospar.service.InviteService;
 import com.chillpill.zhospar.service.ProjectService;
 import com.chillpill.zhospar.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,14 @@ import java.util.stream.Collectors;
 public class ProjectsController {
     private final AccountDetailsService accountDetailsService;
     private final ProjectService projectService;
+    private final InviteService inviteService;
     private final Converter converter;
 
     @Autowired
-    public ProjectsController(AccountDetailsService accountDetailsService, ProjectService projectService, Converter converter) {
+    public ProjectsController(AccountDetailsService accountDetailsService, ProjectService projectService, InviteService inviteService, Converter converter) {
         this.accountDetailsService = accountDetailsService;
         this.projectService = projectService;
+        this.inviteService = inviteService;
         this.converter = converter;
     }
 
@@ -110,12 +114,5 @@ public class ProjectsController {
         return ResponseEntity.ok(accountDtoList);
     }
 
-    @GetMapping("/invite")
-    public String getInvite(Model model, HttpServletRequest request) {
-        Account user = (Account)request.getSession().getAttribute("user");
-        ProjectRole role = projectService.getProjectRoleByName(ProjectService.ROLE_MAINTAINER);
-        List<ProjectMembership> memberships = projectService.getProjectMembershipsByAccountAndProjectRole(user, role);
-        model.addAttribute("memberships", memberships);
-        return "invite";
-    }
+
 }

@@ -32,6 +32,14 @@ public class AccountDetailsService implements UserDetailsService {
         return account;
     }
 
+    public Account findByUsername(String s) {
+        return accountRepository.findAccountByUsername(s);
+    }
+
+    public Account loadByEmail(String email) {
+        return accountRepository.findAccountByEmail(email);
+    }
+
     public Account saveAccount(Account account) {
         if (!account.getFullName().trim().isEmpty() || !account.getPassword().trim().isEmpty() ||
         !account.getUsername().trim().isEmpty() || !account.getEmail().trim().isEmpty()) {
