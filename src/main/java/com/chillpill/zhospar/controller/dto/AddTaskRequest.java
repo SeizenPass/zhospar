@@ -9,4 +9,5 @@ public class AddTaskRequest {
     private String deadline;
     private long parentId;
     private long statusId;
+    private long[] executors;
 }

@@ -19,19 +19,34 @@
                 <hr>
                 <script>
                     $(document).ready(function () {
+                        let defOpt = $('<option>')
+                        defOpt.text("Choose one if available")
+                        defOpt.val("0")
                         $("#projectId").change(function () {
                             var ajaxCall = $.ajax({
                                 dataType: 'json',
                                 url: '/status/project/' + $("#projectId").val()
                             });
+                            var usersAjaxCall = $.ajax({
+                                dataType: 'json',
+                                url: '/projects/' + $("#projectId").val() + '/users'
+                            });
+                            usersAjaxCall.done(function (data) {
+                                let selector = $('#executors')
+                                selector.empty()
+                                selector.append(defOpt.clone())
+                                for (let i = 0; i < data.length; i++) {
+                                    let option = $('<option>')
+                                    option.val(data[i].accountId)
+                                    option.text(data[i].username)
+                                    selector.append(option.clone())
+                                }
+                            })
                             ajaxCall.done(function(data) {
                                 let status = $("#statusId")
                                 let withParentStatus = $('#statusIdForTasks')
                                 status.empty()
                                 withParentStatus.empty()
-                                let defOpt = $('<option>')
-                                defOpt.text("Choose one if available")
-                                defOpt.val("0")
                                 status.append(defOpt.clone())
                                 withParentStatus.append(defOpt.clone())
                                 for (let i = 0; i < data.length; i++) {
@@ -125,18 +140,15 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label" for="executors">Task Status</label>
-                            <select multiple id="executors" class="form-control">
-                                <option value="0">Choose one if available</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                            <select multiple id="executors" class="form-control" name="executors">
+                                <option value="0" disabled>Choose one if available</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary btn-block ripple-surface">Create Project</button>
+                        <button type="submit" class="btn btn-primary btn-block ripple-surface">Create</button>
                     </div>
                 </div>
             </form>

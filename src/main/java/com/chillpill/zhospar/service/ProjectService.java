@@ -10,11 +10,15 @@ import com.chillpill.zhospar.repository.dto.ProjectRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectRoleRepository projectRoleRepository;
     private final ProjectMembershipRepository membershipRepository;
+    public static final String ROLE_MAINTAINER = "Maintainer";
+    public static final String ROLE_VIEWER = "Viewer";
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository, ProjectRoleRepository projectRoleRepository, ProjectMembershipRepository membershipRepository) {
@@ -41,5 +45,14 @@ public class ProjectService {
 
     public ProjectMembership getProjectMembershipByAccountAndProject(Account account, Project project) {
         return membershipRepository.findFirstByAccountAndProject(account, project);
+    }
+
+    public List<ProjectMembership> getProjectMembershipsByProject(Project project) {
+        return membershipRepository.findAllByProject(project);
+    }
+
+    public List<ProjectMembership>
+    getProjectMembershipsByAccountAndProjectRole(Account account, ProjectRole role) {
+        return membershipRepository.findAllByAccountAndProjectRole(account, role);
     }
 }

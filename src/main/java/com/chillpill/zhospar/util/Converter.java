@@ -1,7 +1,9 @@
 package com.chillpill.zhospar.util;
 
+import com.chillpill.zhospar.controller.dto.AccountDto;
 import com.chillpill.zhospar.controller.dto.TaskDto;
 import com.chillpill.zhospar.controller.dto.TaskStatusDto;
+import com.chillpill.zhospar.repository.dto.Account;
 import com.chillpill.zhospar.repository.dto.Task;
 import com.chillpill.zhospar.repository.dto.TaskStatus;
 import org.modelmapper.ModelMapper;
@@ -23,5 +25,9 @@ public class Converter {
 
     public TaskDto convertTaskDto(Task task) {
         return modelMapper.map(task, TaskDto.class);
+    }
+
+    public AccountDto convertAccountDto(Account account) {
+        return modelMapper.map(account, AccountDto.class);
     }
 }

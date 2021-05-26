@@ -4,6 +4,7 @@ import com.chillpill.zhospar.controller.dto.AddTaskRequest;
 import com.chillpill.zhospar.repository.dto.Account;
 import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import com.chillpill.zhospar.repository.dto.Task;
+import com.chillpill.zhospar.repository.dto.TaskExecution;
 import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
 import com.chillpill.zhospar.service.TaskService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,12 +50,23 @@ public class TaskController {
         task.setDeadline(Date.valueOf(taskRequest.getDeadline()));
         task.setDescription(taskRequest.getTaskName());
         if (taskRequest.getParentId() != 0) {
-            task.setParentTask(taskService.getTask(taskRequest.getParentId()));
+            Task parentTask = taskService.getTask(taskRequest.getParentId());
+            task.setParentTask(parentTask);
+            task.setStatus(parentTask.getStatus());
         } else {
             task.setStatus(taskService.getTaskStatusByStatusId(taskRequest.getStatusId()));
         }
         task.setProject(projectService.getProjectById(taskRequest.getProjectId()));
         taskService.createTask(task);
+        if (taskRequest.getExecutors() != null) {
+            for (long id:
+                    taskRequest.getExecutors()) {
+                TaskExecution execution = new TaskExecution();
+                execution.setTask(task);
+                execution.setAccount(accountDetailsService.getAccountById(id));
+                taskService.createTaskExecution(execution);
+            }
+        }
         return "redirect:/projects/"+taskRequest.getProjectId();
     }
 
