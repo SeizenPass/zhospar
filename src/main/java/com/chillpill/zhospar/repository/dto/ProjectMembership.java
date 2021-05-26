@@ -6,6 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name = "project_membership",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"account_id", "project_id"})
+        })
 public class ProjectMembership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,10 +1,14 @@
 package com.chillpill.zhospar.controller;
 
+import com.chillpill.zhospar.controller.dto.AccountDto;
 import com.chillpill.zhospar.controller.dto.AddProjectRequest;
 import com.chillpill.zhospar.repository.dto.*;
 import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
+import com.chillpill.zhospar.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/projects")
 public class ProjectsController {
     private final AccountDetailsService accountDetailsService;
     private final ProjectService projectService;
+    private final Converter converter;
 
     @Autowired
-    public ProjectsController(AccountDetailsService accountDetailsService, ProjectService projectService) {
+    public ProjectsController(AccountDetailsService accountDetailsService, ProjectService projectService, Converter converter) {
         this.accountDetailsService = accountDetailsService;
         this.projectService = projectService;
+        this.converter = converter;
     }
 
     @GetMapping
@@ -57,7 +64,7 @@ public class ProjectsController {
         project.setProjectName(projectRequest.getProjectName());
         project.setProjectDescription(projectRequest.getDescription());
         project = projectService.createProject(project);
-        ProjectRole role = projectService.getProjectRoleByName("Maintainer");
+        ProjectRole role = projectService.getProjectRoleByName(ProjectService.ROLE_MAINTAINER);
         ProjectMembership membership = new ProjectMembership();
         membership.setProject(project);
         membership.setAccount(user);
@@ -83,5 +90,32 @@ public class ProjectsController {
         model.addAttribute("project", project);
         model.addAttribute("taskStatusList", taskStatusList);
         return "dashboard";
+    }
+
+    @GetMapping("/{id}/users")
+    public ResponseEntity<List<AccountDto>> getUsers(@PathVariable("id") long id, HttpServletRequest request) {
+        Project project = projectService.getProjectById(id);
+        if (project == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Account user = (Account)request.getSession().getAttribute("user");
+        ProjectMembership membership = projectService.getProjectMembershipByAccountAndProject(user, project);
+        if (membership == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        List<ProjectMembership> projectMemberships = projectService.getProjectMembershipsByProject(project);
+        List<AccountDto> accountDtoList = projectMemberships.stream()
+                .map(e-> converter.convertAccountDto(e.getAccount()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(accountDtoList);
+    }
+
+    @GetMapping("/invite")
+    public String getInvite(Model model, HttpServletRequest request) {
+        Account user = (Account)request.getSession().getAttribute("user");
+        ProjectRole role = projectService.getProjectRoleByName(ProjectService.ROLE_MAINTAINER);
+        List<ProjectMembership> memberships = projectService.getProjectMembershipsByAccountAndProjectRole(user, role);
+        model.addAttribute("memberships", memberships);
+        return "invite";
     }
 }

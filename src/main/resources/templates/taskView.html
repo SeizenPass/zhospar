@@ -18,7 +18,20 @@
     <h2 class="text-center" th:text="*{description}"></h2>
     <h5 class="text-center">Deadline: <span th:text="*{deadline}"></span></h5>
     <h5 class="text-center">Created by: <a th:text="*{creator.username}"></a></h5>
+    <h5 th:if="${task.parentTask != null}" th:object="${task.parentTask}" class="text-center">Parent Task: <a th:href="@{/task/{id}(id=*{taskId})}" th:text="*{description}"></a></h5>
+    <h3 class="text-center">Executors:</h3>
+    <div th:if="*{taskExecutions.size() == 0}" class="text-center">
+        No executors
+    </div>
+    <div th:each="execution: *{taskExecutions}">
+        <div th:object="${execution.account}" class="w-100 bg-white p-1 border hover-shadow">
+            <span th:text="*{username}"></span>
+        </div>
+    </div>
     <h3 class="text-center">Subtasks:</h3>
+    <div th:if="*{subtasks.size() == 0}" class="text-center">
+        No subtasks
+    </div>
     <div th:each="task: *{subtasks}" class="w-100 p-2">
         <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow">
             <div th:text="*{description}" class="mb-1 text-primary">Продам гараж</div>
