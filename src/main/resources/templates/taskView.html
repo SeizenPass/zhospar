@@ -14,31 +14,112 @@
         })
     })
 </script>
-<div class="container" th:object="${task}">
-    <h2 class="text-center" th:text="*{description}"></h2>
-    <h5 class="text-center">Deadline: <span th:text="*{deadline}"></span></h5>
-    <h5 class="text-center">Created by: <a th:text="*{creator.username}"></a></h5>
-    <h5 th:if="${task.parentTask != null}" th:object="${task.parentTask}" class="text-center">Parent Task: <a th:href="@{/task/{id}(id=*{taskId})}" th:text="*{description}"></a></h5>
-    <h3 class="text-center">Executors:</h3>
-    <div th:if="*{taskExecutions.size() == 0}" class="text-center">
-        No executors
+<!--<div class="container" th:object="${task}">-->
+<!--    <div class="row p-5 m-1">-->
+<!--        <div class="col-sm">-->
+<!--            <h5 class="text-center">Deadline: <span th:text="*{deadline}"></span></h5>-->
+<!--        </div>-->
+<!--        <div class="col-sm">-->
+<!--            <h5 class="text-center">Created by: <a th:text="*{creator.username}"></a></h5>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row">-->
+<!--        <h2 class="text-center" th:text="*{description}"></h2>-->
+<!--    </div>-->
+
+
+
+<!--    <h5 th:if="${task.parentTask != null}" th:object="${task.parentTask}" class="text-center">Parent Task: <a th:href="@{/task/{id}(id=*{taskId})}" th:text="*{description}"></a></h5>-->
+<!--    <h3 class="text-center">Executors:</h3>-->
+<!--    <div th:if="*{taskExecutions.size() == 0}" class="text-center">-->
+<!--        No executors-->
+<!--    </div>-->
+<!--    <div th:each="execution: *{taskExecutions}">-->
+<!--        <div th:object="${execution.account}" class="w-100 bg-white p-1 border">-->
+<!--            <span th:text="*{username}"></span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <h3 class="text-center">Subtasks:</h3>-->
+<!--    <div th:if="*{subtasks.size() == 0}" class="text-center">-->
+<!--        No subtasks-->
+<!--    </div>-->
+<!--    <div th:each="task: *{subtasks}" class="w-100 p-2">-->
+<!--        <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow">-->
+<!--            <div th:text="*{description}" class="mb-1 text-primary">Продам гараж</div>-->
+<!--            <div>Subtasks: <span th:text="*{subtasks.size()}"></span></div>-->
+<!--            <div>Deadline: <span th:text="*{deadline}" class="text-danger"></span></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<link rel="stylesheet" th:href="@{/css/task.css}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="content"  th:object="${task}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-box task-detail">
+                    <div class="media mt-0 m-b-30"><img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">
+                        <div class="media-body">
+                            <h5 class="media-heading mb-0 mt-0"><a th:text="*{creator.username}"></a></h5><span class="badge badge-danger">Urgent</span></div>
+                    </div>
+                    <h4 class="m-b-20"  th:text="*{description}"></h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates, illo, iste itaque voluptas corrupti ratione reprehenderit magni similique? Tempore, quos delectus asperiores libero voluptas quod perferendis! Voluptate, quod illo rerum? Lorem ipsum dolor sit amet.</p>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates, illo, iste itaque voluptas corrupti ratione reprehenderit magni similique? Tempore, quos delectus asperiores libero voluptas quod perferendis! Voluptate, quod illo rerum? Lorem ipsum dolor sit amet.</p>
+                    <ul class="list-inline task-dates m-b-0 mt-5">
+                        <li>
+                            <h5 class="m-b-5">Start Date</h5>
+                            <p>01 December 2017 <small class="text-muted">1:00 PM</small></p>
+                        </li>
+                        <li>
+                            <h5 class="m-b-5">Due Date</h5>
+                            <p><span th:text="*{deadline}"></span></p>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="task-tags mt-4">
+                        <h5 class="">Tags</h5>
+                        <div class="bootstrap-tagsinput"><span class="tag label label-info">Amsterdam<span data-role="remove"></span></span> <span class="tag label label-info">Washington<span data-role="remove"></span></span> <span class="tag label label-info">Sydney<span data-role="remove"></span></span>
+
+                        </div>
+
+                    </div>
+                    <div class="assign-team mt-4">
+                        <h5 class="m-b-5">Assign to</h5>
+                        <div>
+                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png"> </a>
+                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar3.png"> </a>
+                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar5.png"> </a>
+                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar8.png"> </a><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a></div>
+                        <div th:if="*{taskExecutions.size() == 0}" >
+                            No executors
+                        </div>
+                        <div th:each="execution: *{taskExecutions}">
+                            <div th:object="${execution.account}" class="w-100 bg-white p-1 border">
+                                <span th:text="*{username}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="assign-team mt-4">
+                        <div th:if="*{subtasks.size() == 0}">
+                            <h4>No subtasks</h4>
+                        </div>
+                        <div th:each="task: *{subtasks}" class="w-100 p-2">
+                            <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow">
+                                <div th:text="*{description}" class="mb-1 text-primary">Продам гараж</div>
+                                <div>Subtasks: <span th:text="*{subtasks.size()}"></span></div>
+                                <div>Deadline: <span th:text="*{deadline}" class="text-danger"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-4">
+        <!-- end row -->
     </div>
-    <div th:each="execution: *{taskExecutions}">
-        <div th:object="${execution.account}" class="w-100 bg-white p-1 border hover-shadow">
-            <span th:text="*{username}"></span>
-        </div>
-    </div>
-    <h3 class="text-center">Subtasks:</h3>
-    <div th:if="*{subtasks.size() == 0}" class="text-center">
-        No subtasks
-    </div>
-    <div th:each="task: *{subtasks}" class="w-100 p-2">
-        <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow">
-            <div th:text="*{description}" class="mb-1 text-primary">Продам гараж</div>
-            <div>Subtasks: <span th:text="*{subtasks.size()}"></span></div>
-            <div>Deadline: <span th:text="*{deadline}" class="text-danger"></span></div>
-        </div>
-    </div>
+    <!-- container -->
 </div>
+
 </body>
 </html>
