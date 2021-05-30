@@ -6,7 +6,7 @@
         $("#dashboard").css('margin-top', height + 'px')
     })
 </script>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark d-none d-lg-block position-fixed w-100 bg-white" style="z-index: 2000;">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light d-none d-lg-block position-fixed w-100 bg-info" style="z-index: 2000;">
     <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand nav-link" target="_blank" th:href="@{/}">
@@ -19,20 +19,37 @@
         <div class="collapse navbar-collapse" id="navbarExample01">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link text-black" aria-current="page" th:href="@{/projects/} + ${project.projectId}">Home</a>
+                    <a class="nav-link text-black" aria-current="page" th:href="@{/projects/} + ${project.projectId}">
+                        <button type="button" class="btn btn-light">Home</button>
+                    </a>
+                </li>
+                <li class="nav-item hover-bg-light-blue">
+                    <a class="nav-link text-black" th:href="@{/projects/}" rel="nofollow">
+                        <button type="button" class="btn btn-light">All projects</button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black" th:href="@{/projects/}" rel="nofollow">All Projects</a>
+                    <a class="nav-link text-black" th:href="@{/status/add}" rel="nofollow">
+                        <button type="button" class="btn btn-light">Add Status</button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black" th:href="@{/status/add}" rel="nofollow">Add Status</a>
+                    <a class="nav-link text-black" th:href="@{/task/add}" rel="nofollow">
+                        <button type="button" class="btn btn-light">Add Task</button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black" th:href="@{/task/add}" rel="nofollow">Add Task</a>
+                    <a class="nav-link text-black" th:href="@{/projects/invite}" rel="nofollow">
+                        <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">Invite</button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black" th:href="@{/projects/invite}" rel="nofollow">Invite</a>
+                    <a class="nav-link text-black" rel="nofollow">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">INFO about USER</button>
+                    </a>
                 </li>
+
+
             </ul>
 
             <!--<ul class="navbar-nav d-flex flex-row">
