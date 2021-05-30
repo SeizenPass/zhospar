@@ -32,7 +32,6 @@
                         let defOpt = $('<option>')
                         defOpt.text("Choose one if available")
                         defOpt.val("0")
-                        defOpt.prop('disabled', true)
                         $("#projectId").change(function () {
                             var ajaxCall = $.ajax({
                                 dataType: 'json',
@@ -138,7 +137,7 @@
                             <hr>
                             <label class="form-label" for="statusIdForTasks">Task Status</label>
                             <select id="statusIdForTasks" class="form-control">
-                                <option value="0" disabled>Choose one if available</option>
+                                <option value="0">Choose one if available</option>
                             </select>
                             <label class="form-label" for="parentId">Parent Task</label>
                             <select name="parentId" id="parentId" class="form-control">

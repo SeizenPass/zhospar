@@ -51,7 +51,6 @@ public class TaskController {
         if (taskRequest.getParentId() != 0) {
             Task parentTask = taskService.getTask(taskRequest.getParentId());
             task.setParentTask(parentTask);
-            task.setStatus(parentTask.getStatus());
         } else {
             task.setStatus(taskService.getTaskStatusByStatusId(taskRequest.getStatusId()));
         }

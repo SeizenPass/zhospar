@@ -5,6 +5,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,8 +37,12 @@ public class Task {
 
     private String description;
 
-    @CreatedDate
-    @Column(columnDefinition = "date default now()")
+    @PrePersist
+    public void prePersist() {
+        createdAt = Date.valueOf(LocalDate.now());
+    }
+
+    @Column(name = "created_at", nullable = false, columnDefinition = "date default CURRENT_DATE")
     private Date createdAt;
 
     private Date deadline;
