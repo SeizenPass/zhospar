@@ -9,12 +9,10 @@ import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
 import com.chillpill.zhospar.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -71,10 +69,17 @@ public class TaskController {
         return "redirect:/projects/"+taskRequest.getProjectId();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public String getTask(Model model, @PathVariable("id") long taskid) {
         Task task = taskService.getTask(taskid);
         model.addAttribute("task", task);
         return "taskView";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteTask(@PathVariable("id") long taskid) {
+        Task task = taskService.getTask(taskid);
+        taskService.deleteTask(taskid);
+        return "redirect:/projects/"+task.getProject().getProjectId();
     }
 }

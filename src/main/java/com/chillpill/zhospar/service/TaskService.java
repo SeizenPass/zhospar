@@ -45,6 +45,12 @@ public class TaskService {
         return taskRepository.getOne(id);
     }
 
+    public void deleteTask(long id) {
+        Task task = getTask(id);
+        taskRepository.deleteAllByParentTask(task);
+        taskRepository.delete(task);
+    }
+
     public TaskExecution createTaskExecution(TaskExecution taskExecution) {
         return executionRepository.save(taskExecution);
     }
