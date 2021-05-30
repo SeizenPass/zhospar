@@ -24,7 +24,7 @@ public class Task {
     @JoinColumn(name = "parent_id")
     private Task parentTask;
 
-    @OneToMany(mappedBy = "parentTask", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "parentTask")
     private List<Task> subtasks;
 
     @ManyToOne
