@@ -13,7 +13,17 @@
             <img src="../static/images/visuals/kanban3.jpg" th:src="@{/images/logo/logo_transparent.png}" alt="logo" class="logoReg">
         </div>
         <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
-            <form action="/task/add" method="post" class="d-flex flex-column" style="width: 100%">
+            <script>
+                function validate() {
+                    if ($("#taskName").valid() && $("#projectId").valid()) {
+                        if ($("statusId").valid() || $("#parentId").valid()) {
+                            return true
+                        }
+                    }
+                    return false
+                }
+            </script>
+            <form onsubmit="return validate()" action="/task/add" method="post" class="d-flex flex-column" style="width: 100%">
                 <h2>Add Task to your project</h2>
                 <h5>It will be displayed on the board</h5>
                 <hr>
@@ -22,6 +32,7 @@
                         let defOpt = $('<option>')
                         defOpt.text("Choose one if available")
                         defOpt.val("0")
+                        defOpt.prop('disabled', true)
                         $("#projectId").change(function () {
                             var ajaxCall = $.ajax({
                                 dataType: 'json',
@@ -63,10 +74,14 @@
                             let noParentBox = $("#noParentId")
                             if (box.is(":visible")){
                                 box.hide()
+                                $("parentId").prop('required',false);
                                 noParentBox.show()
+                                $("statusId").prop('required',true);
                             } else {
                                 box.show()
+                                $("parentId").prop('required',true);
                                 noParentBox.hide()
+                                $("statusId").prop('required',false);
                             }
                         })
                         $('#statusIdForTasks').change(function () {
@@ -78,15 +93,12 @@
                                 console.log(data)
                                 let tasks = $("#parentId")
                                 tasks.empty()
-                                let defOpt = document.createElement("option")
-                                defOpt.value = "0"
-                                defOpt.innerText = "Choose one if available"
-                                tasks.append(defOpt)
+                                tasks.append(defOpt.clone())
                                 for (let i = 0; i < data.length; i++) {
-                                    let option = document.createElement("option")
-                                    option.value = data[i].taskId
-                                    option.innerText = data[i].description
-                                    tasks.append(option)
+                                    let option = $('<option>')
+                                    option.val(data[i].taskId)
+                                    option.text(data[i].description)
+                                    tasks.append(option.clone())
                                 }
                             });
                         })
@@ -96,12 +108,12 @@
                     <div class="col-md-12">
                         <div class="mb-4">
                             <label class="form-label" for="taskName">Task Name</label>
-                            <input type="text" id="taskName" class="form-control" name="taskName" />
+                            <input required type="text" id="taskName" class="form-control" name="taskName" />
                         </div>
                         <div class="mb-4">
                             <label class="form-label" for="projectId">Project</label>
-                            <select name="projectId" id="projectId" class="form-control">
-                                <option value="0" selected>Choose one if available</option>
+                            <select required name="projectId" id="projectId" class="form-control">
+                                <option value="0" disabled selected>Choose one if available</option>
                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
                             </select>
                         </div>
@@ -118,19 +130,19 @@
                         </div>
                         <div class="mb-4" id="noParentId">
                             <label class="form-label" for="statusId">Task Status</label>
-                            <select name="statusId" id="statusId" class="form-control">
-                                <option value="0" selected>Choose one if available</option>
+                            <select name="statusId" id="statusId" class="form-control" required>
+                                <option value="0" disabled>Choose one if available</option>
                             </select>
                         </div>
                         <div class="mb-4" id="withParentId" style="display: none">
                             <hr>
                             <label class="form-label" for="statusIdForTasks">Task Status</label>
                             <select id="statusIdForTasks" class="form-control">
-                                <option value="0" selected>Choose one if available</option>
+                                <option value="0" disabled>Choose one if available</option>
                             </select>
                             <label class="form-label" for="parentId">Parent Task</label>
                             <select name="parentId" id="parentId" class="form-control">
-                                <option value="0" selected>Choose one if available</option>
+                                <option value="0" disabled>Choose one if available</option>
                             </select>
                             <hr>
                         </div>
@@ -139,7 +151,7 @@
                             <input type="date" id="deadline" class="form-control" name="deadline" />
                         </div>
                         <div class="mb-4">
-                            <label class="form-label" for="executors">Task Status</label>
+                            <label class="form-label" for="executors">Executors (Hold <span class="text-white bg-primary p-1">Ctrl</span> to choose multiple executors)</label>
                             <select multiple id="executors" class="form-control" name="executors">
                                 <option value="0" disabled>Choose one if available</option>
                             </select>
@@ -148,7 +160,7 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary btn-block ripple-surface">Create</button>
+                        <input type="submit" class="btn btn-primary btn-block ripple-surface" />
                     </div>
                 </div>
             </form>
