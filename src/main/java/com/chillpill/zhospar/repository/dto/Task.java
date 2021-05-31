@@ -35,6 +35,9 @@ public class Task {
     @JoinColumn(name = "creator_id", nullable = false)
     private Account creator;
 
+    private String title;
+
+    @Column(length = 1000)
     private String description;
 
     @PrePersist
