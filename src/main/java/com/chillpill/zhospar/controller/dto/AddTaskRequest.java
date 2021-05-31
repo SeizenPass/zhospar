@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class AddTaskRequest {
     private String taskName;
+    private String description;
     private long projectId;
     private String deadline;
     private long parentId;

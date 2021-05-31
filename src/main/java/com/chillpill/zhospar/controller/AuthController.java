@@ -24,7 +24,7 @@ public class AuthController {
     // Login form
     @GetMapping("/login")
     public String getLogin(HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") != null) {
+        if (request.getSession().getAttribute("userId") != null) {
             return "redirect:/projects";
         }
         return "login";

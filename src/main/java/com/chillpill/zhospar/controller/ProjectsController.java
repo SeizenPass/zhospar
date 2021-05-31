@@ -41,7 +41,7 @@ public class ProjectsController {
 
     @GetMapping
     public String getProjects(Model model, HttpServletRequest request) {
-        Account account = ((Account)(request.getSession().getAttribute("user")));
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         long userId = account.getAccountId();
         List<ProjectMembership> memberships = accountDetailsService.getAllMembershipsByAccountId(userId);
         List<Project> projects = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ProjectsController {
         if (projectRequest.getProjectName().trim().isEmpty()) {
             //TODO error validation logic
         }
-        Account user = (Account)request.getSession().getAttribute("user");
+        Account user = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         Project project = new Project();
         project.setProjectName(projectRequest.getProjectName());
         project.setProjectDescription(projectRequest.getDescription());
@@ -84,7 +84,7 @@ public class ProjectsController {
             model.addAttribute("error", "Project not found");
             return "error";
         }
-        Account user = (Account)request.getSession().getAttribute("user");
+        Account user = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         ProjectMembership membership = projectService.getProjectMembershipByAccountAndProject(user, project);
         if (membership == null) {
             model.addAttribute("error", "Membership not found");
@@ -93,6 +93,7 @@ public class ProjectsController {
         List<TaskStatus> taskStatusList = project.getTaskStatuses();
         model.addAttribute("project", project);
         model.addAttribute("taskStatusList", taskStatusList);
+        model.addAttribute("user", user);
         return "dashboard";
     }
 
@@ -102,7 +103,7 @@ public class ProjectsController {
         if (project == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        Account user = (Account)request.getSession().getAttribute("user");
+        Account user = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         ProjectMembership membership = projectService.getProjectMembershipByAccountAndProject(user, project);
         if (membership == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
