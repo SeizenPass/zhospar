@@ -17,8 +17,11 @@ $(document).ready(function () {
 <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
     <div class="container-fluid">
         <!-- Navbar brand -->
-        <a class="navbar-brand nav-link" target="_blank" href="https://mdbootstrap.com/docs/standard/">
+        <a class="navbar-brand nav-link">
             <strong class="text-dark">Zhospar</strong>
+        </a>
+        <a class="navbar-brand nav-link" href="/logout">
+            <strong class="text-dark">Logout</strong>
         </a>
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
                 aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,28 +30,63 @@ $(document).ready(function () {
     </div>
 </nav>
 <!-- Navbar -->
-<div class="container bg-gradient h-100">
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>...</td>
-            <td><a href="/projects/add">Add Project</a></td>
-            <td>...</td>
-        </tr>
-        <tr th:each="project, it : ${projects}" th:id="${project.projectId}" class="project">
-            <th scope="row" th:text="${it.count}"></th>
-            <td th:text="${project.projectName}"></td>
-            <td th:text="${project.projectDescription}"></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="container-fluid bg-gradient h-100">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="text-center">Projects</h4>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>...</td>
+                    <td><a href="/projects/add">Add Project</a></td>
+                    <td>...</td>
+                </tr>
+                <tr th:each="project, it : ${projects}" th:id="${project.projectId}" class="project">
+                    <th scope="row" th:text="${it.count}"></th>
+                    <td th:text="${project.projectName}"></td>
+                    <td th:text="${project.projectDescription}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <h4 class="text-center">Invitations</h4>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Inviter</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${invites.isEmpty()}">
+                    <td>...</td>
+                    <td>No invites</td>
+                    <td>...</td>
+                    <td>...</td>
+                </tr>
+                <tr th:each="invite, it : ${invites}" th:id="${invite.inviteId}" class="project">
+                    <th scope="row" th:text="${it.count}"></th>
+                    <td th:text="${invite.project.projectName}"></td>
+                    <td th:text="${invite.inviterAccount.username}"></td>
+                    <td class="d-flex justify-content-around">
+                        <a th:href="@{/invite/accept/{id}(id=${invite.inviteId})}">Accept</a>
+                        <a th:href="@{/invite/decline/{id}(id=${invite.inviteId})}">Decline</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>
