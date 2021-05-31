@@ -34,7 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(60 * 60 * 5); //5 hours
-            session.setAttribute("user", user);
+            session.setAttribute("userId", user.getAccountId());
             response.sendRedirect("/projects");
         });
     }

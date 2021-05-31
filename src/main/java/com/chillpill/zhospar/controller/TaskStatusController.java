@@ -7,6 +7,7 @@ import com.chillpill.zhospar.repository.dto.Account;
 import com.chillpill.zhospar.repository.dto.Project;
 import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import com.chillpill.zhospar.repository.dto.TaskStatus;
+import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
 import com.chillpill.zhospar.service.TaskService;
 import com.chillpill.zhospar.util.Converter;
@@ -23,12 +24,15 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/status")
 public class TaskStatusController {
+    private final AccountDetailsService accountDetailsService;
     private final ProjectService projectService;
     private final TaskService taskService;
     private final Converter converter;
 
     @Autowired
-    public TaskStatusController(ProjectService projectService, TaskService taskService, Converter converter) {
+    public TaskStatusController(AccountDetailsService accountDetailsService, ProjectService projectService,
+                                TaskService taskService, Converter converter) {
+        this.accountDetailsService = accountDetailsService;
         this.projectService = projectService;
         this.taskService = taskService;
         this.converter = converter;
@@ -36,7 +40,7 @@ public class TaskStatusController {
 
     @GetMapping("/add")
     public String getStatus(Model model, HttpServletRequest request) {
-        Account account = ((Account)(request.getSession().getAttribute("user")));
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         List<ProjectMembership> memberships = account.getMemberships();
         model.addAttribute("memberships", memberships);
         return "addStatus";

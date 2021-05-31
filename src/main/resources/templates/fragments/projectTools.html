@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand nav-link" target="_blank" th:href="@{/}">
-            <strong class="text-black">Zhospar</strong><span class="text-black" th:text="${'/' + project.projectName}"></span>
+            <strong class="text-">Zhospar</strong><span class="text-black" th:text="${'/' + project.projectName}"></span>
         </a>
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
                 aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,8 +44,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-black" th:href="@{/logout}" rel="nofollow">
+                        <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">Log out</button>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-black" rel="nofollow">
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">INFO about USER</button>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Profile</button>
                     </a>
                 </li>
 

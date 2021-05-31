@@ -59,38 +59,39 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card-box task-detail">
-                    <div class="media mt-0 m-b-30"><img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">
+                    <div class="media mt-0 m-b-30">
+                        <!--<img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">-->
                         <div class="media-body">
-                            <h5 class="media-heading mb-0 mt-0"><a th:text="*{creator.username}"></a></h5><span class="badge badge-danger">Urgent</span></div>
+                            <h5 class="media-heading mb-0 mt-0">Creator: <a th:text="*{creator.username}"></a></h5><span class="badge badge-danger">Urgent</span></div>
                     </div>
-                    <h4 class="m-b-20"  th:text="*{description}"></h4>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates, illo, iste itaque voluptas corrupti ratione reprehenderit magni similique? Tempore, quos delectus asperiores libero voluptas quod perferendis! Voluptate, quod illo rerum? Lorem ipsum dolor sit amet.</p>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates, illo, iste itaque voluptas corrupti ratione reprehenderit magni similique? Tempore, quos delectus asperiores libero voluptas quod perferendis! Voluptate, quod illo rerum? Lorem ipsum dolor sit amet.</p>
+                    <h4 class="m-b-20"  th:text="*{'Title: ' + title}"></h4>
+                    <p th:text="*{description}"></p>
                     <ul class="list-inline task-dates m-b-0 mt-5">
-                        <li>
-                            <h5 class="m-b-5">Start Date</h5>
-                            <p>01 December 2017 <small class="text-muted">1:00 PM</small></p>
+                        <li th:if="*{createdAt != null}">
+                            <h5 class="m-b-5">Creation date</h5>
+                            <p th:text="*{createdAt}">01 December 2017</p>
                         </li>
-                        <li>
+                        <li th:if="*{deadline != null}">
                             <h5 class="m-b-5">Due Date</h5>
                             <p><span th:text="*{deadline}"></span></p>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-                    <div class="task-tags mt-4">
+                    <!--<div class="task-tags mt-4">
                         <h5 class="">Tags</h5>
                         <div class="bootstrap-tagsinput"><span class="tag label label-info">Amsterdam<span data-role="remove"></span></span> <span class="tag label label-info">Washington<span data-role="remove"></span></span> <span class="tag label label-info">Sydney<span data-role="remove"></span></span>
 
                         </div>
 
-                    </div>
+                    </div>-->
                     <div class="assign-team mt-4">
-                        <h5 class="m-b-5">Assign to</h5>
-                        <div>
+                        <h5 class="m-b-5">Assigned to</h5>
+                        <!--<div>
                             <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png"> </a>
                             <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar3.png"> </a>
                             <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar5.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar8.png"> </a><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a></div>
+                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar8.png"> </a><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a>
+                            </div>-->
                         <div th:if="*{taskExecutions.size() == 0}" >
                             No executors
                         </div>
@@ -101,8 +102,9 @@
                         </div>
                     </div>
                     <div class="assign-team mt-4">
+                        <h5 class="m-b-5">Subtasks:</h5>
                         <div th:if="*{subtasks.size() == 0}">
-                            <h4>No subtasks</h4>
+                            <div>No subtasks</div>
                         </div>
                         <div th:each="task: *{subtasks}" class="w-100 p-2">
                             <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow">

@@ -34,7 +34,7 @@ public class TaskController {
 
     @GetMapping("/add")
     public String getCreateTask(Model model, HttpServletRequest request) {
-        Account account = ((Account)(request.getSession().getAttribute("user")));
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         List<ProjectMembership> memberships = account.getMemberships();
         model.addAttribute("memberships", memberships);
         return "addTask";
@@ -42,10 +42,11 @@ public class TaskController {
 
     @PostMapping("/add")
     public String createTask(AddTaskRequest taskRequest, HttpServletRequest request) {
-        Account account = ((Account)(request.getSession().getAttribute("user")));
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         Task task = new Task();
         task.setCreator(account);
-        task.setDescription(taskRequest.getTaskName());
+        task.setTitle(taskRequest.getTaskName());
+        task.setDescription(taskRequest.getDescription());
         if (taskRequest.getParentId() != 0) {
             Task parentTask = taskService.getTask(taskRequest.getParentId());
             task.setParentTask(parentTask);

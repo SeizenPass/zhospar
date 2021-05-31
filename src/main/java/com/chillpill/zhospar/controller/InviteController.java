@@ -34,7 +34,7 @@ public class InviteController {
 
     @GetMapping
     public String getInvite(Model model, HttpServletRequest request) {
-        Account user = (Account)request.getSession().getAttribute("user");
+        Account user = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         ProjectRole role = projectService.getProjectRoleByName(ProjectService.ROLE_MAINTAINER);
         List<ProjectMembership> memberships = projectService.getProjectMembershipsByAccountAndProjectRole(user, role);
         model.addAttribute("memberships", memberships);
@@ -43,7 +43,7 @@ public class InviteController {
 
     @PostMapping
     public String createInvite(Model model, HttpServletRequest request, AddInviteRequest inviteRequest) {
-        Account user = (Account)request.getSession().getAttribute("user");
+        Account user = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
         Project project = projectService.getProjectById(inviteRequest.getProjectId());
         if (project == null) {
             model.addAttribute("error", "Project not found");
