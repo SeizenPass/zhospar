@@ -17,47 +17,13 @@
         })
     })
 </script>
-<div class="container-fluid flex-grow-1" id="dashboard">
-    <div class="row h-100 w-100">
-        <div class="col-md-12 p-4 h-100 bg-image d-flex justify-content-center" style="
-    background-image: url('static/images/visuals/windows-WJPHTJEtgzw-unsplash.jpg');
-    height: 100vh;
-  ">
-            <div class="h-100 overflow-scroll d-flex border border-primary flex-row p-1 justify-content-start" id="board">
-                <div th:each="taskStatus: ${taskStatusList}" class="category h-100 ms-2 me-2 p-0 border shadow-1-strong overflow-auto">
-                    <div th:text="${taskStatus.statusName}" class="p-2 text-center w-10 border bg-info text-white"></div>
-                    <div class="tasks overflow-auto">
-                        <div th:each="task: ${taskStatus.taskList}" class="w-100 p-2">
-                            <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow border-info">
-                                <div th:text="*{title}" class="mb-1 text-primary">Продам гараж</div>
-                                <div>
-
-                                    <span th:if="*{taskExecutions.size() > 0}">Executors: <span th:text="*{taskExecutions.size()}"></span></span></div>
-                                <div th:if="*{deadline != null}">Deadline: <span th:text="*{deadline}" class="text-danger"></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body" id="profile">
-                <h3 th:text="${user.username}"></h3>
-                <h4 th:text="${user.fullName}"></h4>
-            </div>
-        </div>
-    </div>
+<div class="container-fluid flex-grow-1 w-25" id="dashboard">
     <div class="content">
-        <div class="container">
-            <div class="row w-100 overflow-scroll">
-                <div class="col-lg-4 d-flex flex-row w-25">
-                    <div th:each="taskStatus: ${taskStatusList}" class="card-box w-100">
-                        <h4 th:text="${taskStatus.statusName}" class="text-dark header-title"></h4>
+        <div class="container d-flex justify-content-center">
+            <div class="row ">
+                <div class="col-lg-12">
+                    <div th:each="taskStatus: ${taskStatusList}" class="card-box w-100 ">
+                        <h4 th:text="${taskStatus.statusName}" class="text-dark header-title w-100"></h4>
                         <p class="text-muted m-b-30 font-13">Your awesome text goes here. Your awesome text goes here.</p>
                         <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming">
                             <li th:each="task: ${taskStatus.taskList}" class="task-warning ui-sortable-handle" id="task1">
@@ -66,7 +32,7 @@
                                         <input type="checkbox" aria-label="Single checkbox Two">
                                         <label></label>
                                     </div>
-                                    <p th:text="*{description}" ></p>
+                                    <p th:text="*{title}" ></p>
                                     <div class="clearfix"></div>
                                     <div class="mt-3">
                                         <p class="float-right mb-0 mt-2">
