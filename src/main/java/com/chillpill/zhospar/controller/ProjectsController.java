@@ -49,7 +49,9 @@ public class ProjectsController {
              memberships) {
             projects.add(membership.getProject());
         }
+        List<Invite> inviteList = inviteService.getInvitesByInvitedAccountId(userId);
         model.addAttribute("projects", projects);
+        model.addAttribute("invites", inviteList);
         return "projects";
     }
 
