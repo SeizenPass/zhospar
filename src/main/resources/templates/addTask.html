@@ -120,11 +120,10 @@
                                 <option th:each="membership : ${memberships}" th:object="${membership.project}" th:value="*{projectId}" th:text="*{projectName}"></option>
                             </select>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4 form-check">
                             <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    value=""
                                     id="isParentBox"
                             />
                             <label class="form-check-label" for="isParentBox">
