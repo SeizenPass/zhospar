@@ -86,19 +86,21 @@
                     </div>-->
                     <div class="assign-team mt-4">
                         <h5 class="m-b-5">Assigned to</h5>
-                        <!--<div>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar3.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar5.png"> </a>
-                            <a href="#"><img class="rounded-circle thumb-sm" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar8.png"> </a><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a>
-                            </div>-->
+                        <div th:if="*{taskExecutions.size() != 0}">
+                            <a th:each="exec : *{taskExecutions}" th:href="@{/profile/{id}(id=${exec.getAccount().accountId})}">
+                                <img th:if="${exec.account.avatarId != null}" th:src="@{/image/{id}(id=${exec.account.accountId})}" class="rounded-circle thumb-sm" alt="64x64">
+                                <img th:if="${exec.account.avatarId == null}" class="rounded-circle thumb-sm" alt="64x64" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png">
+                            </a>
+                            <a href="#">
+                                <span class="add-new-plus">
+                                    <i class="fa fa-plus">
+
+                                    </i>
+                                </span>
+                            </a>
+                            </div>
                         <div th:if="*{taskExecutions.size() == 0}" >
                             No executors
-                        </div>
-                        <div th:each="execution: *{taskExecutions}">
-                            <div th:object="${execution.account}" class="w-100 bg-white p-1 border">
-                                <span th:text="*{username}"></span>
-                            </div>
                         </div>
                     </div>
                     <div class="assign-team mt-4">

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -40,6 +41,7 @@ public class AccountDetailsService implements UserDetailsService {
         return accountRepository.findAccountByEmail(email);
     }
 
+    @Transactional
     public Account saveAccount(Account account) {
         if (!account.getFullName().trim().isEmpty() || !account.getPassword().trim().isEmpty() ||
         !account.getUsername().trim().isEmpty() || !account.getEmail().trim().isEmpty()) {
@@ -50,6 +52,10 @@ public class AccountDetailsService implements UserDetailsService {
         else {
             return null;
         }
+    }
+
+    public Account updateAccount(Account account) {
+        return accountRepository.save(account);
     }
 
     public Account getAccountById(long id) {

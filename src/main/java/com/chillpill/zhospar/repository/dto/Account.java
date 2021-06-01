@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -28,6 +29,8 @@ public class Account implements UserDetails {
     private String email;
 
     private Date registrationDate;
+
+    private UUID avatarId;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
     private List<ProjectMembership> memberships;
