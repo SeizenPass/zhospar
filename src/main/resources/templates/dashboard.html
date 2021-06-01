@@ -54,8 +54,8 @@
                     <div th:each="taskStatus: ${taskStatusList}" class="h-100 card-box" style="width: 300px!important;">
                         <h4 th:text="${taskStatus.statusName}" class="text-dark header-title w-100"></h4>
                         <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming">
-                            <li th:each="task: ${taskStatus.taskList}" class="w-100 task-warning ui-sortable-handle">
-                                <div th:object="${task}" th:id="*{taskId}" class="task w-100 bg-white p-1 border hover-shadow border-info">
+                            <li th:each="task: ${taskStatus.taskList}" class="w-100 task-warning ui-sortable-handle taskList">
+                                <div th:object="${task}" th:id="*{taskId}" class="w-100 task bg-white p-1 hover-shadow border">
                                     <p th:text="*{title}" class="text-left m-1"></p>
                                     <div class="w-100">
                                         <p class="float-right">
