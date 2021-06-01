@@ -62,10 +62,22 @@
                     <div class="media mt-0 m-b-30">
                         <!--<img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">-->
                         <div class="media-body">
-                            <h5 class="media-heading mb-0 mt-0">Creator: <a th:text="*{creator.username}"></a></h5><span class="badge badge-danger">Urgent</span></div>
+                            <h5 class="media-heading mb-0 mt-0">Creator: <a th:text="*{creator.username}"></a></h5><span class="badge badge-danger">Urgent</span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-success">Success</button>
+                        </div>
                     </div>
-                    <h4 class="m-b-20"  th:text="*{'Title: ' + title}"></h4>
-                    <p th:text="*{description}"></p>
+                    <form>
+                        <div class="form-group">
+                            <h4 class="m-b-20 p">Title</h4>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" th:value="*{title}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" th:text="*{description}"></textarea>
+                        </div>
+                    </form>
                     <ul class="list-inline task-dates m-b-0 mt-5">
                         <li th:if="*{createdAt != null}">
                             <h5 class="m-b-5">Creation date</h5>
@@ -73,7 +85,7 @@
                         </li>
                         <li th:if="*{deadline != null}">
                             <h5 class="m-b-5">Due Date</h5>
-                            <p><span th:text="*{deadline}"></span></p>
+                            <input class="form-control" type="date" th:value="*{deadline}" id="example-date-input">
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -124,6 +136,7 @@
     </div>
     <!-- container -->
 </div>
-
+    </div>
+</div>
 </body>
 </html>
