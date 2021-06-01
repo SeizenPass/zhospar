@@ -1,6 +1,7 @@
 package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AddTaskRequest;
+import com.chillpill.zhospar.controller.dto.UpdateTaskRequest;
 import com.chillpill.zhospar.repository.dto.Account;
 import com.chillpill.zhospar.repository.dto.ProjectMembership;
 import com.chillpill.zhospar.repository.dto.Task;
@@ -71,9 +72,13 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public String getTask(Model model, @PathVariable("id") long taskid) {
+    public String getTask(Model model, @PathVariable("id") long taskid, HttpServletRequest request) {
         Task task = taskService.getTask(taskid);
         model.addAttribute("task", task);
+        boolean isUser = false;
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
+        if (account.getAccountId() == task.getCreator().getAccountId()) isUser = true;
+        model.addAttribute("isUser", isUser);
         return "taskView";
     }
 
@@ -82,5 +87,24 @@ public class TaskController {
         Task task = taskService.getTask(taskid);
         taskService.deleteTask(taskid);
         return "redirect:/projects/"+task.getProject().getProjectId();
+    }
+
+    @PostMapping("/update")
+    public String updateTask(Model model, UpdateTaskRequest taskRequest, HttpServletRequest request) {
+        Task task = taskService.getTask(taskRequest.getTaskId());
+        if (task == null) {
+            model.addAttribute("error", "Not found");
+            return "error";
+        }
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
+        if (task.getCreator().getAccountId() != account.getAccountId()) {
+            model.addAttribute("error", "You are not a creator of this task");
+            return "error";
+        }
+        task.setTitle(taskRequest.getTitle());
+        task.setDescription(taskRequest.getDescription());
+        task.setDeadline(Date.valueOf(taskRequest.getDeadline()));
+        taskService.createTask(task);
+        return "redirect:/task/" + task.getTaskId();
     }
 }
