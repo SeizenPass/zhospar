@@ -2,10 +2,7 @@ package com.chillpill.zhospar.controller;
 
 import com.chillpill.zhospar.controller.dto.AddTaskRequest;
 import com.chillpill.zhospar.controller.dto.UpdateTaskRequest;
-import com.chillpill.zhospar.repository.dto.Account;
-import com.chillpill.zhospar.repository.dto.ProjectMembership;
-import com.chillpill.zhospar.repository.dto.Task;
-import com.chillpill.zhospar.repository.dto.TaskExecution;
+import com.chillpill.zhospar.repository.dto.*;
 import com.chillpill.zhospar.service.AccountDetailsService;
 import com.chillpill.zhospar.service.ProjectService;
 import com.chillpill.zhospar.service.TaskService;
@@ -83,10 +80,23 @@ public class TaskController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteTask(@PathVariable("id") long taskid) {
+    public ResponseEntity<Boolean> deleteTask(Model model, @PathVariable("id") long taskid, HttpServletRequest request) {
         Task task = taskService.getTask(taskid);
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
+        if (task.getCreator().getAccountId() != account.getAccountId()) {
+            return ResponseEntity.ok(false);
+        }
         taskService.deleteTask(taskid);
-        return "redirect:/projects/"+task.getProject().getProjectId();
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("/{id}/status/{statusId}")
+    public ResponseEntity<Boolean> changeStatus(@PathVariable("id") long taskId, @PathVariable("statusId") long statusId) {
+        Task task = taskService.getTask(taskId);
+        TaskStatus status = taskService.getTaskStatusByStatusId(statusId);
+        task.setStatus(status);
+        taskService.createTask(task);
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/update")
