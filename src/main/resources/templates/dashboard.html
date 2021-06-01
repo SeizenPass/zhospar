@@ -40,7 +40,18 @@
                                             <button type="button" class="btn btn-success btn-sm waves-effect waves-light">View</button>
                                         </p>
                                         <p class="mb-0">
-                                            <a href="" class="text-muted"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="task-user" class="thumb-sm rounded-circle mr-2"> <span class="font-bold font-secondary"><span th:if="*{subtasks.size() > 0}">Subtasks: <span th:text="*{task.creator}"></span></span></span></a>
+                                            <a href="" class="text-muted">
+                                                <img th:if="*{creator != null}" th:src="@{/image/{id}(id=*{creator.accountId})}" alt="task-user" class="thumb-sm rounded-circle mr-2">
+                                                <img th:if="*{creator == null}" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt="task-user" class="thumb-sm rounded-circle mr-2">
+                                                <span class="font-bold font-secondary">
+                                                    <span>
+                                                        <span th:text="*{creator.username}">
+
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </a>
+
                                         </p>
                                     </div>
                                 </div>
