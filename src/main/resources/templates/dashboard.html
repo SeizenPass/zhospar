@@ -5,10 +5,11 @@
     <title th:text="${project.projectName}"></title>
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
     <div th:replace="fragments/dependencies"></div>
+    <div th:insert="fragments/projectTools :: navbar"></div>
+    <script th:replace="fragments/projectTools :: navbarPos"></script>
 </head>
-<body class="vh-100 d-flex flex-column">
-<div th:insert="fragments/projectTools :: navbar"></div>
-<script th:replace="fragments/projectTools :: navbarPos"></script>
+
+<body class="vh-100 vw-100 d-flex justify-content-center">
 <script>
     $(document).ready(function () {
         $(".task").click(function () {
@@ -19,10 +20,10 @@
 </script>
 <div class="container-fluid flex-grow-1 w-25" id="dashboard">
     <div class="content">
-        <div class="container d-flex justify-content-center">
-            <div class="row ">
-                <div class="col-lg-12">
-                    <div th:each="taskStatus: ${taskStatusList}" class="card-box w-100 ">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 d-flex">
+                    <div th:each="taskStatus: ${taskStatusList}" class="card-box w-100 flex-fill">
                         <h4 th:text="${taskStatus.statusName}" class="text-dark header-title w-100"></h4>
                         <p class="text-muted m-b-30 font-13">Your awesome text goes here. Your awesome text goes here.</p>
                         <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming">
