@@ -47,6 +47,12 @@ public class TaskService {
 
     public void deleteTask(long id) {
         Task task = getTask(id);
+        List<Task> subtasks = taskRepository.findAllByParentTask(task);
+        for (Task subtask:
+             subtasks) {
+            executionRepository.deleteAllByTask(subtask);
+        }
+        executionRepository.deleteAllByTask(task);
         taskRepository.deleteAllByParentTask(task);
         taskRepository.delete(task);
     }

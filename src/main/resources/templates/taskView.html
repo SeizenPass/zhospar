@@ -12,6 +12,33 @@
             let id = $(this).attr('id');
             location.href = "/task/" + id
         })
+        $('#deleteButton').click(function () {
+            var ajaxCall = $.ajax({
+                dataType: 'json',
+                url: '/task/' + '[[${task.taskId}]]' + '/delete'
+            });
+            ajaxCall.done(function(data) {
+                if (data == false) {
+                    alert("Something went wrong!")
+                } else {
+                    window.location.assign("/projects/" + '[[${task.project.projectId}]]')
+                }
+            });
+        })
+        $('#statusId').change(function () {
+            let val = $('#statusId').val()
+            var ajaxCall = $.ajax({
+                dataType: 'json',
+                url: '/task/' + '[[${task.taskId}]]' + '/status/' + val
+            });
+            ajaxCall.done(function(data) {
+                if (data == false) {
+                    alert("Something went wrong!")
+                } else {
+                    alert("Status was changed!")
+                }
+            });
+        })
     })
 </script>
 <!--<div class="container" th:object="${task}">-->
@@ -59,6 +86,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <form th:action="@{/task/update}" method="post" class="card-box task-detail">
+                    <a th:href="@{/projects/{id}(id=*{project.projectId})}"><- Return to project</a>
                     <div class="media mt-0 m-b-30">
                         <!--<img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">-->
                         <div class="media-body d-flex align-items-center">
@@ -66,8 +94,11 @@
                             <img th:if="*{creator.avatarId != null}" th:src="@{/image/{id}(id=*{creator.accountId})}" class="rounded-circle thumb-sm" alt="64x64">
                             <img th:if="*{creator.avatarId == null}" class="rounded-circle thumb-sm" alt="64x64" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png">
                         </div>
+                        <div th:if="${isUser}" style="margin-right: 10px">
+                            <input type="button" class="btn btn-danger" value="Delete" id="deleteButton" />
+                        </div>
                         <div th:if="${isUser}">
-                            <input type="submit" class="btn btn-success" />
+                            <input type="submit" class="btn btn-success" value="Update" />
                         </div>
                     </div>
                     <div>
@@ -92,6 +123,12 @@
                         </li>
                     </ul>
                     <div class="clearfix"></div>
+                    <div class="m-t-1">
+                        <h5 class="m-b-5">Status</h5>
+                        <select id="statusId" th:readonly="${!isUser}" class="form-control" aria-label="Default select example">
+                            <option th:each="status : *{project.taskStatuses}" th:value="${status.statusId}" th:text="${status.statusName}" th:selected="${status.statusId == task.status.statusId}"></option>
+                        </select>
+                    </div>
                     <!--<div class="task-tags mt-4">
                         <h5 class="">Tags</h5>
                         <div class="bootstrap-tagsinput"><span class="tag label label-info">Amsterdam<span data-role="remove"></span></span> <span class="tag label label-info">Washington<span data-role="remove"></span></span> <span class="tag label label-info">Sydney<span data-role="remove"></span></span>
