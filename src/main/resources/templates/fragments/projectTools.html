@@ -6,11 +6,11 @@
         $("#dashboard").css('margin-top', height + 'px')
     })
 </script>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light d-none d-lg-block position-fixed w-100 bg-info" style="z-index: 2000;">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light d-none d-lg-block position-fixed w-100 bg-primary" style="z-index: 2000;">
     <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand nav-link" target="_blank" th:href="@{/}">
-            <strong class="text-">Zhospar</strong><span class="text-black" th:text="${'/' + project.projectName}"></span>
+            <strong style="color: white">Zhospar</strong><span style="color: white" th:text="${'/' + project.projectName}"></span>
         </a>
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
                 aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,17 +43,24 @@
                         <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">Invite</button>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black" th:href="@{/logout}" rel="nofollow">
-                        <button type="button" class="btn btn-light" data-mdb-ripple-color="dark">Log out</button>
-                    </a>
+                <li class="dropdown d-flex align-items-center">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Team
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a th:each="mem : ${teamList}" class="dropdown-item" th:href="@{/profile/{id}(id=${mem.account.accountId})}" th:text="${mem.account.username}"></a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-black" th:href="@{/profile/{id}(id=${user.accountId})}">
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Profile</button>
+                        <button class="btn btn-dark" type="button">Profile</button>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link text-black" th:href="@{/logout}" rel="nofollow">
+                        <button type="button" class="btn btn-warning" data-mdb-ripple-color="dark">Log out</button>
+                    </a>
+                </li>
 
             </ul>
 

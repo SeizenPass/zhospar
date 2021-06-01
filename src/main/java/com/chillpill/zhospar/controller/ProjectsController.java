@@ -92,10 +92,12 @@ public class ProjectsController {
             model.addAttribute("error", "Membership not found");
             return "error";
         }
+        List<ProjectMembership> mems = projectService.getProjectMembershipsByProject(project);
         List<TaskStatus> taskStatusList = project.getTaskStatuses();
         model.addAttribute("project", project);
         model.addAttribute("taskStatusList", taskStatusList);
         model.addAttribute("user", user);
+        model.addAttribute("teamList", mems);
         return "dashboard";
     }
 
