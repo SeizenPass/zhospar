@@ -123,7 +123,7 @@
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-                    <div class="m-t-1">
+                    <div class="m-t-1" th:if="${task.parentTask == null}">
                         <h5 class="m-b-5">Status</h5>
                         <select id="statusId" th:readonly="${!isUser}" class="form-control" aria-label="Default select example">
                             <option th:each="status : *{project.taskStatuses}" th:value="${status.statusId}" th:text="${status.statusName}" th:selected="${status.statusId == task.status.statusId}"></option>
@@ -167,7 +167,7 @@
                                 <p th:text="${subtask.title}" class="text-left m-1"></p>
                                 <div class="d-flex justify-content-between">
                                     <p>
-                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light">View</button>
+                                        <a th:href="@{/task/{id}(id=${subtask.taskId})}" type="button" class="btn btn-success btn-sm waves-effect waves-light">View</a>
                                     </p>
                                     <p>
                                         <a href="" class="text-muted">
