@@ -91,8 +91,12 @@ public class TaskController {
     }
 
     @GetMapping("/{id}/status/{statusId}")
-    public ResponseEntity<Boolean> changeStatus(@PathVariable("id") long taskId, @PathVariable("statusId") long statusId) {
+    public ResponseEntity<Boolean> changeStatus(@PathVariable("id") long taskId, @PathVariable("statusId") long statusId, HttpServletRequest request) {
         Task task = taskService.getTask(taskId);
+        Account account = accountDetailsService.getAccountById((Long)request.getSession().getAttribute("userId"));
+        if (task.getCreator().getAccountId() != account.getAccountId()) {
+            return ResponseEntity.ok(false);
+        }
         TaskStatus status = taskService.getTaskStatusByStatusId(statusId);
         task.setStatus(status);
         taskService.createTask(task);
